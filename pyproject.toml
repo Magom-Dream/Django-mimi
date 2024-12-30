@@ -10,6 +10,7 @@ python = "^3.13"
 django = "^5.1.4"
 django-restframework = "^0.0.1"
 psycopg = "^3.2.3"
+pyjwt = "^2.10.1"
 
 
 [tool.poetry.group.dev.dependencies]

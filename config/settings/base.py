@@ -8,8 +8,9 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
-"""
 
+"""
+from datetime import timedelta
 import os
 from pathlib import Path
 
@@ -31,7 +32,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_SYSTEM_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -39,6 +40,17 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
+
+# 새로 생성한 앱 코드
+CUSTOM_USER_APPS = [
+    "accounts.apps.AccountsConfig",
+    "transaction_history.apps.TransactionHistoryConfig",
+    "users.apps.UsersConfig",
+    "rest_framework",
+    "rest_framework_simplejwt",
+]
+
+INSTALLED_APPS = DJANGO_SYSTEM_APPS + CUSTOM_USER_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -67,6 +79,8 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTH_USER_MODEL = "users.User"
 
 WSGI_APPLICATION = "config.wsgi.application"
 
@@ -100,6 +114,35 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ]
+}
+
+SIMPLE_JWT = {
+    # 액세스 토큰의 유효 기간을 60분으로 설정
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+
+    # 리프레시 토큰의 유효 기간을 14일로 설정
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
+
+    # JWT를 서명하는 데 사용할 키로 Django의 SECRET_KEY를 사용
+    "SIGNING_KEY": SECRET_KEY,
+
+    # JWT에 사용할 서명 알고리즘으로 HS256을 사용
+    "ALGORITHM": "HS256",
+
+    # 인증 헤더의 타입으로 'Bearer'를 사용
+    # Authorization: Bearer <token>
+    "AUTH_HEADER_TYPES": ("Bearer",),
+
+    # 리프레시 토큰을 갱신할 때 새로운 리프레시 토큰을 발급하도록 설정
+    "ROTATE_REFRESH_TOKENS": True,
+
+    # 리프레시 토큰이 갱신될 때 이전 리프레시 토큰을 블랙리스트에 추가하도록 설정
+    "BLACKLIST_AFTER_ROTATION": True,
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
