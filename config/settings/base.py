@@ -121,14 +121,23 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("Bearer",),
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=180),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    # 액세스 토큰의 유효 기간을 60분으로 설정
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    # 리프레시 토큰의 유효 기간을 1일로 설정
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    # 리프레시 토큰을 갱신할 때마다 새 토큰을 생성
     "ROTATE_REFRESH_TOKENS": True,
+    # 토큰을 갱신한 후 이전 토큰을 블랙리스트에 추가
     "BLACKLIST_AFTER_ROTATION": True,
+    # JWT에 사용할 서명 알고리즘으로 HS256을 사용
     "ALGORITHM": "HS256",
+    # JWT를 서명하는 데 사용할 키로 Django의 SECRET_KEY를 사용
     "SIGNING_KEY": SECRET_KEY,
+    # JWT 검증에 사용할 키입니다. HS256 알고리즘에서는 None으로 설정
     "VERIFYING_KEY": None,
+    # 인증 헤더의 타입으로 'Bearer'를 사용
+    # Authorization: Bearer <token>
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
 # Internationalization
