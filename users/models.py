@@ -40,7 +40,7 @@ class User(AbstractBaseUser, BaseModel):
     nickname = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
-    last_login = models.DateTimeField(auto_now=True)
+    last_login = models.DateTimeField(auto_now=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
