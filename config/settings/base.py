@@ -43,14 +43,15 @@ DJANGO_SYSTEM_APPS = [
 
 # 새로 생성한 앱 코드
 CUSTOM_USER_APPS = [
+    "users.apps.UsersConfig",
     "accounts.apps.AccountsConfig",
     "transaction_history.apps.TransactionHistoryConfig",
-    "users.apps.UsersConfig",
     "rest_framework",
     "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
-INSTALLED_APPS = DJANGO_SYSTEM_APPS + CUSTOM_USER_APPS
+INSTALLED_APPS = CUSTOM_USER_APPS + DJANGO_SYSTEM_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
